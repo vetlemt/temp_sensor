@@ -5,12 +5,12 @@ double getTemperature(){
     const int N = 1 << resolution;  // number of steps 
     const double alpha = 100 / (double)N; // step size, (sensor range)/steps
     const int t_delta = 100;        // min time between reads
-    static unsigned long t_last = 0;
+    static unsigned long t_last = 0;// the last time the temp was read
     double temp_c;
-    if ( millis() >= t_last + t_delta)
+    if ( millis() >= t_last + t_delta)  // if the minimum time period has elapsed
     {
         t_last = millis();
-        long temp_raw = getTempRaw();
+        int temp_raw = getTempRaw();
         temp_c = temp_raw * alpha - 50;  // convert raw sensor data to celsius
 
         printf("\ntemp in C:%f \n", temp_c);
@@ -18,10 +18,39 @@ double getTemperature(){
     return temp_c;
 }
 
-long getTempRaw(){
+int getTempRaw(){
     static int count = 0;
+    static char ca[6][770];
+    
+    // read the file once and store it in ca
+    static bool read = false;
+    if (read == false)
+    {
+        char (*cptr)[6][770];
+        cptr = &ca;
+        readFile(cptr);
+        read = true;
+    }
+    
+    // copy the current reading to cc
+    char cc[6];
+    for (size_t i = 0; i < 6; i++)
+        {
+            cc[i] = ca[i][count];
+        }   
+
+    count = count >= 766 ? 0 : count + 1;   // loops the readings 
+
+    // parse the number string into int
+    char *ptr;
+    int ret = strtol(cc, &ptr,10);
+     printf("\nData from the file: %d  mesurement number: %d", ret,count);
+
+    return ret; 
+}
+
+char readFile(char (*ca)[6][770]){
     char c[6];
-    char ca[6][770];
     FILE *fptr;
 
     if ((fptr = fopen("temperature.txt", "r")) == NULL) {
@@ -36,30 +65,12 @@ long getTempRaw(){
     {
         for (size_t i = 0; i < 6; i++)
         {
-            ca[i][j] = c[i];
+            (*ca)[i][j] = c[i];
         }
         j++;
 
     }
     fclose(fptr);
-
-    char cc[6];
-    for (size_t i = 0; i < 6; i++)
-        {
-            cc[i] = ca[i][count];
-        }   
-
-    count = count >= 766 ? 0 : count + 1;   // loops the readings 
-
-    char *ptr;
-    int ret = strtol(cc, &ptr,10);
-     printf("\nData from the file: %d  mesurement number: %d", ret,count);
-
-    return ret; 
-}
-
-char readFile(char readings){
-    
 }
 
 double maxTemperature(){
