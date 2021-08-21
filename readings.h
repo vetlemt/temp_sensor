@@ -1,10 +1,13 @@
+#define readingsh
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
 
-
-
+#ifndef timevh
+    #include "timev.h"
+#endif
 typedef struct
 {
     double celsius;
@@ -19,7 +22,7 @@ typedef struct
     double avg;
 }stats;
 
-unsigned long millis();
+
 void* getReadings();
 void storeRead(reading temp);
 void cleanReads();

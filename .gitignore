@@ -2,3 +2,8 @@ main
 test
 test.c
 main
+timev.o
+main.o
+temp
+readings.o
+temp_sensor.o

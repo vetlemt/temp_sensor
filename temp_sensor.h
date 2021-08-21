@@ -1,8 +1,19 @@
+#define temp_sensorh
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
-#include "readings.c"
+
+#ifndef readingsh
+    #include "readings.h"
+#endif
+
+#ifndef timevh
+    #include "timev.h"
+#endif
+
+extern unsigned long millis();
 
 int getTempRaw();
 double getTemperature();

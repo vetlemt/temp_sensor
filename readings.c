@@ -1,9 +1,6 @@
 #include "readings.h"
+#include "timev.h"
 
-unsigned long millis(){
-    unsigned long milli = clock()/(1000);   
-    return milli;
-}
 
 // get a pointer to the array of sensor readings from the last two minutes
 void* getReadings(){

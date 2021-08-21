@@ -6,7 +6,7 @@ double getTemperature(){
     const double alpha = 100 / (double)N; // step size, (sensor range)/steps
     const int t_delta = 100;        // min time between reads
     static unsigned long t_last = 0;// the last time the temp was read
-    reading temp = {0,0,false};
+    static reading temp = {0,0,false};
     
     if ( millis() >= t_last + t_delta)  // if the minimum time period has elapsed
     {
