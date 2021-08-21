@@ -7,3 +7,4 @@
 
 unsigned long millis();
 time_t t0();
+void getUTC(char *pstr, unsigned long milli);

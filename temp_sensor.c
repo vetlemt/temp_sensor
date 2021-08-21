@@ -17,7 +17,7 @@ double getTemperature(){
         temp.used = true;
         storeRead(temp);
 
-        printf("\ntemp in C:%f \n", temp.celsius);
+        printf("temp in C:%f \n", temp.celsius);
     }
     
 
@@ -50,7 +50,7 @@ int getTempRaw(){
     // parse the number string into int
     char *ptr;
     int ret = strtol(cc, &ptr,10);
-     printf("\nData from the file: %d  mesurement number: %d", ret,count);
+     printf("\nData from the file: %d  mesurement number: %d\n", ret,count);
 
     return ret; 
 }
