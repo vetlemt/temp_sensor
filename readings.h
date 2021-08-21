@@ -23,12 +23,11 @@ typedef struct
 }stats;
 
 
-void* getReadings();
 void storeRead(reading temp);
 void cleanReads();
 stats getTempStats();
 double getMaxTemp();
 double getMinTemp();
 double getAvgTemp();
-void getOldestTime(char *pstr);
-void getNewestTime(char *pstr);
+void getOldestTime(char *pstr[30]);
+void getNewestTime(char *pstr[30]);

@@ -2,13 +2,6 @@
 
 reading reads[1200] = {{0,0,false}}; 
 
-
-// get a pointer to the array of sensor readings from the last two minutes
-void* getReadings(){
-    static reading readings[1200] = {{0,0,false}};  // create sensor readings array
-    return &readings; 
-}
-
 // sore a new value in the readings array
 void storeRead(reading temp){
     cleanReads();
@@ -32,9 +25,6 @@ void cleanReads(){
             }
         } 
     }
-    //printf("cleaned\n");
-
- 
 
 }
 // get the max min and average from the last two minutes
@@ -100,7 +90,7 @@ double getAvgTemp(){
     return avg;
 }
 
-void getOldestTime(char *pstr){
+void getOldestTime(char *pstr[30]){
     unsigned long oldest = -1;
     cleanReads(); 
 
@@ -114,7 +104,7 @@ void getOldestTime(char *pstr){
     getUTC(pstr,oldest);
 }
 
-void getNewestTime(char *pstr){
+void getNewestTime(char *pstr[30]){
     unsigned long newest = 0;
     cleanReads(); 
     int j = 0;
