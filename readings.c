@@ -90,7 +90,7 @@ double getAvgTemp(){
     return avg;
 }
 
-void getOldestTime(char *pstr[30]){
+void getOldestTime(char pstr[30]){
     unsigned long oldest = -1;
     cleanReads(); 
 
@@ -104,10 +104,9 @@ void getOldestTime(char *pstr[30]){
     getUTC(pstr,oldest);
 }
 
-void getNewestTime(char *pstr[30]){
+void getNewestTime(char pstr[30]){
     unsigned long newest = 0;
     cleanReads(); 
-    int j = 0;
     for (int i = 0; i < 1200; i++)
     {
         if (reads[i].used == true)

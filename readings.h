@@ -29,5 +29,5 @@ stats getTempStats();
 double getMaxTemp();
 double getMinTemp();
 double getAvgTemp();
-void getOldestTime(char *pstr[30]);
-void getNewestTime(char *pstr[30]);
+void getOldestTime(char pstr[30]);
+void getNewestTime(char pstr[30]);
