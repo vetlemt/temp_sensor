@@ -13,5 +13,7 @@
     #include "readings.h"
 #endif
 
-void getJSON(char s[200]);
-int post(char *json[], char *dir[]);
+void getJSON(char *s);
+void storeJSON(char *s);
+void getJSONHistory(char *history);
+int post(char *json, char *dir);

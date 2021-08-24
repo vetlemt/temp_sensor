@@ -13,8 +13,7 @@
     #include "timev.h"
 #endif
 
-extern unsigned long millis();
-
+unsigned long millis();
 int getTempRaw();
 double getTemperature();
 char readFile(char (*ca)[6][770]);

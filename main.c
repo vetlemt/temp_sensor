@@ -10,7 +10,10 @@
 
 void main() {
     t0();
-    char s[200];
+    char s[2000];
+    char *ps;
+    ps = s;
+    int response;
     unsigned long t_last = 0;
     while (true)
     {
@@ -18,9 +21,12 @@ void main() {
         if (millis() >= t_last + 1000)
         {
             t_last = millis();
-            getJSON(s);
+            getJSON(ps);
             //printf("%s",s);
-            post(s,"/api/temperature");
+            response = post(s,"/api/temperature");
+            printf("\nresponse: %d\n",response);
+            getJSONHistory(ps);
+            //printf("%s",ps);
         }   
     }
 }

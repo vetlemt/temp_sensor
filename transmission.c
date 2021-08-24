@@ -1,6 +1,10 @@
 #include "transmission.h"
 
-void getJSON(char s[200]){
+static char *jsons[10];
+int order = 0;
+bool filled = false;
+
+void getJSON(char *s){
     char line[50];
     char oldest[30];    
     char newest[30];
@@ -9,19 +13,102 @@ void getJSON(char s[200]){
     getNewestTime(newest);
     tempStats = getTempStats();
     
-    sprintf(s,"");
-    strcat(s,"{\n");
+    sprintf(s,"{\n");
     strcat(s,"\t\"time\": {\n"); 
     sprintf(line, "\t\t\"start\": \"%s\",\n",oldest); strcat(s,line);
     sprintf(line, "\t\t\"end\": \"%s\"\n",   newest); strcat(s,line);
     strcat(s,"\t},\n");
-    sprintf(line, "\t\"min\": %02.2f,\n",    tempStats.min); strcat(s,line);
-    sprintf(line, "\t\"max\": %02.2f,\n",    tempStats.max); strcat(s,line);
-    sprintf(line, "\t\"avg\": %02.2f\n", tempStats.avg); strcat(s,line);
+    sprintf(line, "\t\"min\": %02.2f,\n",   tempStats.min); strcat(s,line);
+    sprintf(line, "\t\"max\": %02.2f,\n",   tempStats.max); strcat(s,line);
+    sprintf(line, "\t\"avg\": %02.2f\n",    tempStats.avg); strcat(s,line);
     strcat(s,"}");
+
+    storeJSON(s);
 }
 
-int post(char *json[],char *dir[])
+void storeJSON(char *s){
+    jsons[order] = s;
+    order++;
+    if (order == 10){ filled = true;}   
+    order = order % 10;
+    printf("\norder:%d\n",order);
+}
+
+void getJSONHistory(char *history){
+    int j = order;
+    char *line;
+    char buff[2000];
+    char *p;
+    p = buff;
+    sprintf(p,"[\n");
+    if (!filled)
+    {
+        for (size_t i = 0; i < order; i++)
+        {
+            line = jsons[i];
+            strcat(p, line);strcat(p, ",\n");
+        }
+        
+    }
+    else
+    {
+        do
+        {
+            line = jsons[j];
+            strcat(p, line);strcat(p, ",\n");
+            j++;
+            j = j % 10;
+        } while (j != order);
+    }
+
+    p[strlen(p)-2] = '\n';
+    strcat(p, "]");
+    strcpy(history,p);
+
+}
+/*
+
+void indent(char *s){
+    char buff[200];
+    char *pb;
+    pb = &buff;
+    pb = s;
+    int n = 0;
+    int m = 0;
+    sprintf(s,"\t");
+    while (strchr(pb,'\n') != "\0")
+    {
+        n = strchr(pb,'\n');
+        for (size_t i = 0; i < n+1; i++)
+        {
+            strcat(s,pb[i]);
+        }
+        strcat(s,"\t");
+        strnrm(pb,n);
+
+           
+    }
+    
+
+}
+
+void strnrm(char *s, int n){
+    char buff[200];
+    char *pb;
+    pb = &buff;
+    pb = s;
+    int len = strlen(s);
+    int k = 0;
+    for (size_t i = n+1; i < len; i++)
+    {
+        k = i-n+1;
+        //more code
+            
+    }
+}
+*/
+
+int post(char *json,char *dir)
 {
     /* first what are we going to send and where are we going to send it? */
     int portno =        5000;
@@ -89,5 +176,14 @@ int post(char *json[],char *dir[])
     /* process response */
     printf("Response:\n%s\n",response);
 
-    return 0;
+    char re_code[10];
+    for (size_t i = 0; i < 3; i++)
+    {
+        re_code[i] = response[i+9];
+    }
+    int re_int;
+    char *ptr;
+    re_int = strtol(re_code,&ptr,10);
+    
+    return re_int;
 }

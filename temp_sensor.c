@@ -18,7 +18,8 @@ double getTemperature(){
         storeRead(temp);
 
         //printf("temp in C:%f \n", temp.celsius);
-    }    
+    }
+    
     return temp.celsius;
 }
 
