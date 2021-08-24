@@ -6,11 +6,11 @@
 #include <stdbool.h>
 
 #ifndef readingsh
-    #include "readings.h"
+#include "readings.h"
 #endif
 
 #ifndef timevh
-    #include "timev.h"
+#include "timev.h"
 #endif
 
 unsigned long millis();

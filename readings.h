@@ -6,22 +6,21 @@
 #include <stdbool.h>
 
 #ifndef timevh
-    #include "timev.h"
+#include "timev.h"
 #endif
 typedef struct
 {
     double celsius;
     unsigned long time;
     bool used;
-}reading;
+} reading;
 
 typedef struct
 {
     double max;
     double min;
     double avg;
-}stats;
-
+} stats;
 
 void storeRead(reading temp);
 void cleanReads();

@@ -7,7 +7,8 @@
 #include "temp_sensor.h"
 #include "transmission.h"
 
-void main() {
+void main()
+{
     t0();
     char s[2000];
     char *ps;
@@ -20,28 +21,24 @@ void main() {
     while (true)
     {
         getTemperature();
-        if (millis() >= t_last + 120000)
+        if (millis() >= t_last + 120000) //every two minutes
         {
             t_last = millis();
-            if (response != 500)
+            if (response != 500) // if there wasn't a server error
             {
                 getJSON(pb);
             }
-            response = post(pb,"/api/temperature");
-            printf("\nresponse: %d\n",response);
-            if (response == 500)
+            response = post(pb, "/api/temperature");
+            printf("\nresponse: %d\n", response);
+            if (response == 500) // if there is a server error
             {
                 getJSONHistory(ps);
                 int re2 = 0;
-                while (re2 != 200)
+                while (re2 != 200) // post until no server error
                 {
-                    re2 = post(ps,"/api/temperature/missing");
+                    re2 = post(ps, "/api/temperature/missing");
                 }
-                
             }
-            
-            //printf("%s",ps);
-        }   
+        }
     }
 }
-
