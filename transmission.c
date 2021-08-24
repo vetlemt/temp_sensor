@@ -1,6 +1,6 @@
 #include "transmission.h"
 
-static char *jsons[10];
+static char jsons[10][200];
 int order = 0;
 bool filled = false;
 
@@ -27,7 +27,7 @@ void getJSON(char *s){
 }
 
 void storeJSON(char *s){
-    jsons[order] = s;
+    strcpy(jsons[order],s);
     order++;
     if (order == 10){ filled = true;}   
     order = order % 10;
@@ -36,7 +36,6 @@ void storeJSON(char *s){
 
 void getJSONHistory(char *history){
     int j = order;
-    char *line;
     char buff[2000];
     char *p;
     p = buff;
@@ -45,8 +44,7 @@ void getJSONHistory(char *history){
     {
         for (size_t i = 0; i < order; i++)
         {
-            line = jsons[i];
-            strcat(p, line);strcat(p, ",\n");
+            strcat(p, jsons[i]);strcat(p, ",\n");
         }
         
     }
@@ -54,8 +52,7 @@ void getJSONHistory(char *history){
     {
         do
         {
-            line = jsons[j];
-            strcat(p, line);strcat(p, ",\n");
+            strcat(p, jsons[j]);strcat(p, ",\n");
             j++;
             j = j % 10;
         } while (j != order);
@@ -66,47 +63,7 @@ void getJSONHistory(char *history){
     strcpy(history,p);
 
 }
-/*
 
-void indent(char *s){
-    char buff[200];
-    char *pb;
-    pb = &buff;
-    pb = s;
-    int n = 0;
-    int m = 0;
-    sprintf(s,"\t");
-    while (strchr(pb,'\n') != "\0")
-    {
-        n = strchr(pb,'\n');
-        for (size_t i = 0; i < n+1; i++)
-        {
-            strcat(s,pb[i]);
-        }
-        strcat(s,"\t");
-        strnrm(pb,n);
-
-           
-    }
-    
-
-}
-
-void strnrm(char *s, int n){
-    char buff[200];
-    char *pb;
-    pb = &buff;
-    pb = s;
-    int len = strlen(s);
-    int k = 0;
-    for (size_t i = n+1; i < len; i++)
-    {
-        k = i-n+1;
-        //more code
-            
-    }
-}
-*/
 
 int post(char *json,char *dir)
 {
